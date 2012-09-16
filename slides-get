@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+ACCEPT_CONFIG='/etc/get-slides.d/file.accept'
+if [[ -a $ACCEPT_CONFIG ]]
+then
+  ACCEPT_CONFIG=$( < $ACCEPT_CONFIG )
+fi
+
+if [[ "XX$ACCEPT_FILE_TYPE" = "XX" ]]
+then
+  ACCEPT_FILE_TYPE='*.pdf,*.ppt,*.pptx,*.doc,*.docx,*.ps,*.xsl,*.xslx' 
+fi
+
+ACCEPT_FILE_GREP=$( echo "$ACCEPT_FILE_TYPE" | sed -e 's/\,\*\./\\|.*\\./g' )
+
+if [[ ! -d $1 ]]
+then
+  echo "Destination directory doesn't exist." >2
+  exit 1
+fi
+
+cd $1
+shift
+
+URL=$1
+shift
+
+wget -e robots=off -nv -r -H -nd -N -l 1 -R'*.html,*.htm' -A"$ACCEPT_FILE_TYPE" "$@" "$URL" 2>&1 |\
+  grep -o -- "-> \"\($ACCEPT_FILE_GREP\)\"" |\
+  sed -e "s/-> \"\($ACCEPT_FILE_GREP\)\"/\1/"

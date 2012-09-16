@@ -1,0 +1,12 @@
+GET-SLIDES
+
+slides-get:
+  Get slides and other course materials from your course web site, e.g.
+    http://www.cs.sjtu.edu.cn/~liwujun/course/wsm.html
+
+mso2pdf:
+  Convert MSO files to PDF, using libreoffice.
+
+rotate-ppt:
+  Rotate PPT to portrait for better display on kindle.
+

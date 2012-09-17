@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+IFS_SAVE=$IFS
+export IFS=$' '
+
+URL_FILE='/etc/get-slides.d/urls'
+LOG_FILE='/var/log/get-slides.log'
+LOCK_FILE='/var/lock/get-slides.pid'
+
+echo $$ > $LOCK_FILE
+
+if [[ ! ( -a $URL_FILE ) ]]
+then
+  exit 0
+fi
+
+( while read DIR URL
+do
+  if [[ ! -d $DIR ]]
+  then
+    mkdir -p $DIR
+  fi
+
+  cd $DIR
+  slides-get $URL |\
+    mso2pdf |\
+    rotate-ppt |\
+    sed -e "s#^#[$(date)] $DIR/#" >>\
+    $LOG_FILE
+done ) < $URL_FILE
+
+export IFS=$IFS_SAVE
+rm $LOCK_FILE

@@ -3,10 +3,21 @@ GET-SLIDES
 slides-get:
   Get slides and other course materials from your course web site, e.g.
     http://www.cs.sjtu.edu.cn/~liwujun/course/wsm.html
+  using wget(1).
 
 mso2pdf:
   Convert MSO files to PDF, using libreoffice.
 
 rotate-ppt:
-  Rotate PPT to portrait for better display on kindle.
+  Rotate PPT to portrait for better display on kindle, using pdftk(1).
 
+slides-get.cron:
+  Cron job for running the above in pipeline.
+
+
+KNOWN ISSUE
+  1. When libreoffice quickstarter is running, mso2pdf may not run.
+     Simply disable the quickstarter will fix the problem.
+  2. Using pdf90(1) in package pdfjam(1) to rotate pdf may be more natural, 
+     but the output of pdf90(1) is a little buggy and may not be properly
+     displayed on kindle.

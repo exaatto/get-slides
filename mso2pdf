@@ -1,23 +1,27 @@
 #!/usr/bin/env bash
 
-MSO_FILE_TYPES='\.ppt$\|\.pptx$\|\.doc$\|\.docx$\|\.xsl$\|\.xslx$' 
-
 IFS_SAVE=$IFS
-
 export IFS=`echo -ne '\0'`
+
+MSO_FILE_TYPES='\.ppt$\|\.pptx$\|\.doc$\|\.docx$\|\.xsl$\|\.xslx$' 
 
 ALL_FILES=$( cat )
 FILES=$( echo $ALL_FILES | grep $MSO_FILE_TYPES )
-echo $ALL_FILES | grep -v $MSO_FILE_TYPES
+echo -n $ALL_FILES | grep -v $MSO_FILE_TYPES
+
+if [[ "XX$FILES" = "XX" ]]
+then
+  exit 0;
+fi
 
 libreoffice --headless --invisible --convert-to pdf $FILES 2>&1 >/dev/null
 
+export IFS=`echo -ne '\n\r\t '`
 for F in $FILES
 do
   OF=$( echo $F | sed -e "s/$MSO_FILE_TYPES/.pdf/" )
   mv "$OF" "$F.pdf"
   echo "$F.pdf"
 done
-
 
 export IFS=$IFS_SAVE

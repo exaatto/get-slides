@@ -3,6 +3,7 @@
 IFS_SAVE=$IFS
 export IFS=$' '
 
+PREFIX='/usr/local/bin'
 URL_FILE='/etc/get-slides.d/urls'
 LOG_FILE='/var/log/get-slides.log'
 LOCK_FILE='/var/lock/get-slides.pid'
@@ -22,9 +23,9 @@ do
   fi
 
   cd $DIR
-  slides-get $URL |\
-    mso2pdf |\
-    rotate-ppt |\
+  $PREFIX/slides-get $URL |\
+    $PREFIX/mso2pdf |\
+    $PREFIX/rotate-ppt |\
     sed -e "s#^#[$(date)] $DIR/#" >>\
     $LOG_FILE
 done ) < $URL_FILE

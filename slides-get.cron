@@ -2,6 +2,7 @@
 
 IFS_SAVE=$IFS
 export IFS=$' '
+export DISPLAY=':0'
 
 PREFIX='/usr/local/bin'
 URL_FILE='/etc/get-slides.d/urls'
@@ -23,9 +24,10 @@ do
   fi
 
   cd $DIR
-  $PREFIX/slides-get $URL |\
+  ( $PREFIX/slides-get $URL |\
     $PREFIX/mso2pdf |\
-    $PREFIX/rotate-ppt |\
+    $PREFIX/rotate-ppt
+  ) 2>&1 |\
     sed -e "s#^#[$(date)] $DIR/#" >>\
     $LOG_FILE
 done ) < $URL_FILE

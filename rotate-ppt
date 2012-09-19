@@ -12,7 +12,7 @@ echo -n $ALL_FILES | grep -v $PPT_FILE_TYPES
 export IFS=`echo -ne '\0\n\r\t '`
 for F in $FILES
 do
-  #pdftk "$F" cat '1-endE' output "$F.portrait.pdf"
+  pdftk "$F" cat '1-endE' output "$F.portrait.pdf"
   echo "$F.portrait.pdf"
 done
 

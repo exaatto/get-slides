@@ -1,0 +1,5 @@
+/var/log/get-slides.log {
+    monthly
+    missingok
+    notifempty
+}

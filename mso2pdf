@@ -16,7 +16,7 @@ fi
 
 libreoffice --headless --invisible --convert-to pdf $FILES 2>&1 >/dev/null
 
-export IFS=`echo -ne '\n\r\t '`
+export IFS=`echo -ne '\n'`
 for F in $FILES
 do
   OF=$( echo $F | sed -e "s/$MSO_FILE_TYPES/.pdf/" )

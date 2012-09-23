@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 IFS_SAVE=$IFS
-export IFS=`echo -ne '\0 '`
+export IFS=`echo -ne '\0'`
 
 PPT_FILE_TYPES='\.ppt\.pdf$\|\.pptx\.pdf$'
 
@@ -9,7 +9,7 @@ ALL_FILES=$( cat )
 FILES=$( echo $ALL_FILES | grep $PPT_FILE_TYPES )
 echo -n $ALL_FILES | grep -v $PPT_FILE_TYPES
 
-export IFS=`echo -ne '\0\n\r\t '`
+export IFS=`echo -ne '\n'`
 for F in $FILES
 do
   pdftk "$F" cat '1-endE' output "$F.portrait.pdf"

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 IFS_SAVE=$IFS
-export IFS=`echo -ne '\0'`
+export IFS=''
 
 MSO_FILE_TYPES='\.ppt$\|\.pptx$\|\.doc$\|\.docx$\|\.xsl$\|\.xslx$' 
 
@@ -16,7 +16,7 @@ fi
 
 libreoffice --headless --invisible --convert-to pdf $FILES 2>&1 >/dev/null
 
-export IFS=`echo -ne '\n'`
+export IFS=$'\n'
 for F in $FILES
 do
   OF=$( echo $F | sed -e "s/$MSO_FILE_TYPES/.pdf/" )

@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-IFS_SAVE=$IFS
 export IFS=''
 
 MSO_FILE_TYPES='\.ppt$\|\.pptx$\|\.doc$\|\.docx$\|\.xsl$\|\.xslx$' 
@@ -23,5 +22,3 @@ do
   mv "$OF" "$F.pdf"
   echo "$F.pdf"
 done
-
-export IFS=$IFS_SAVE

@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-IFS_SAVE=$IFS
 export IFS=$'\n'
 
+TIMEOUT=10
+TRIES=3
 ACCEPT_CONFIG='/etc/get-slides.d/file.accept'
 if [[ -a $ACCEPT_CONFIG ]]
 then
@@ -19,8 +20,15 @@ ACCEPT_FILE_GREP=$( echo "$ACCEPT_FILE_TYPE" | sed -e 's/,/\\|/g' | sed -e 's/\*
 URL=$1
 shift
 
-wget -e robots=off -nv -r -H -nd -N -l 1 -R'*.html,*.htm' -A"$ACCEPT_FILE_TYPE" "$@" "$URL" 2>&1 |\
+{ wget -e robots=off --timeout=$TIMEOUT --tries=$TRIES \
+    -nv \
+    -r -H -nd -N -l 1 \
+    -R'*.html,*.htm' -A"$ACCEPT_FILE_TYPE" "$@" "$URL" 2>&1 ; \
+    if [[ $? -ne 0 ]]
+    then
+      echo "Network Error On {$URL}" 1>&2
+    fi ; \
+  } |\
   grep -o -- "-> \"\($ACCEPT_FILE_GREP\)\"" |\
   sed -e "s/-> \"\($ACCEPT_FILE_GREP\)\"/\1/"
 
-export IFS=$IFS_SAVE

@@ -9,7 +9,13 @@ URL_FILE='/etc/get-slides.d/urls'
 LOG_FILE='/var/log/get-slides.log'
 LOCK_FILE='/var/lock/get-slides.pid'
 
-echo $$ > $LOCK_FILE
+if [[ -a $LOCK_FILE ]]
+then
+  exit 0
+else
+  echo $$ > $LOCK_FILE
+  trap "rm $LOCK_FILE" SIGINT SIGTERM
+fi
 
 if [[ ! ( -a $URL_FILE ) ]]
 then
@@ -31,6 +37,3 @@ do
     sed -e "s#^#[$(date)] $DIR/#" >>\
     $LOG_FILE
 done ) < $URL_FILE
-
-export IFS=$IFS_SAVE
-rm $LOCK_FILE

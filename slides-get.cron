@@ -14,7 +14,7 @@ then
   exit 0
 else
   echo $$ > $LOCK_FILE
-  trap "rm $LOCK_FILE" SIGINT SIGTERM
+  trap "rm $LOCK_FILE" EXIT INT TERM
 fi
 
 if [[ ! ( -a $URL_FILE ) ]]

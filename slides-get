@@ -22,7 +22,7 @@ shift
 
 { wget -e robots=off --timeout=$TIMEOUT --tries=$TRIES \
     -nv \
-    -r -H -nd -N -l 1 \
+    -r -H -nd -N \
     -R'*.html,*.htm' -A"$ACCEPT_FILE_TYPE" "$@" "$URL" 2>&1 ; \
     if [[ $? -ne 0 ]]
     then

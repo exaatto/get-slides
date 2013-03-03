@@ -1,9 +1,7 @@
 GET-SLIDES
 
 slides-get:
-  Get slides and other course materials from your course web site, e.g.
-    http://www.cs.sjtu.edu.cn/~liwujun/course/wsm.html
-  using wget(1).
+  Get slides and other course materials from your course web site, using wget(1).
 
 mso2pdf:
   Convert MSO files to PDF, using libreoffice.
@@ -13,6 +11,18 @@ rotate-ppt:
 
 slides-get.cron:
   Cron job for running the above in pipeline.
+
+get-slides:
+  log-rotate(8) config file.
+
+get-slides.d/file.accept:
+  Acceptable file formats.
+
+get-slides.d/urls:
+  URL list.
+
+install.sh:
+  Installation script, needs to be root.
 
 
 KNOWN ISSUE
